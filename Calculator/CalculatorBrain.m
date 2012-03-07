@@ -60,7 +60,7 @@
         result = log([self popOperand]);    
     } else if ([operation isEqualToString:@"+/-"]) {
         result = [self popOperand] * -1;
-    } else if ([operation isEqualToString:@"pi"]) {
+    } else if ([operation isEqualToString:@"π"]) {
         NSNumber *pi = [NSNumber numberWithDouble:M_PI];
         [self.operandStack addObject:pi];
         result = M_PI;

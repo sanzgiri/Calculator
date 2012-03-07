@@ -103,7 +103,14 @@
 {
     if (self.userIsInTheMiddleOfEnteringANumber)
     {
-        self.display.text = [self.display.text substringToIndex:[self.display.text length] - 1]; 
+        int len = [self.display.text length];
+        if (len > 1)
+        {
+            self.display.text = [self.display.text substringToIndex:len-1];
+        } else {
+            self.display.text = @"0";
+        }
+        
     }
     
 }
