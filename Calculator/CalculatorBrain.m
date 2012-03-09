@@ -34,9 +34,20 @@
     return @"Implement this in Homework #2";
 }
 
-- (void)pushOperand:(double)operand
+- (void)pushOperand:(id)operand
 {
-    [self.programStack addObject:[NSNumber numberWithDouble:operand]];    
+    [self.programStack addObject:operand];
+                                 
+#if 0
+    if ([operand isKindOfClass:[NSNumber class]])
+    {
+        [self.programStack addObject:[NSNumber numberWithDouble:operand]];  
+    }
+    else if ([operand isKindOfClass:[NSString class]])
+    {
+        [self.programStack addObject:[NSString operand]];
+    }
+#endif
 }
 
 - (double)performOperation:(NSString *)operation
@@ -88,6 +99,12 @@
 //            NSNumber *e = [NSNumber numberWithDouble:M_E];
 //            [self.programStack addObject:e];
             result = M_E;
+        } else if ([operation isEqualToString:@"x"]) {
+            result = [self popOperandOffProgramStack:stack];
+        } else if ([operation isEqualToString:@"a"]) {
+            result = [self popOperandOffProgramStack:stack];
+        } else if ([operation isEqualToString:@"b"]) {
+            result = [self popOperandOffProgramStack:stack];
         }
         
     }
@@ -100,6 +117,15 @@
 }
 
 + (double)runProgram:(id)program
+{
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program mutableCopy];
+    }
+    return [self popOperandOffProgramStack:stack];
+}
+
++ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues;
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {

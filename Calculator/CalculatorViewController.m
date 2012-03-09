@@ -42,7 +42,7 @@
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushOperand:[self.display.text doubleValue]];
+    [self.brain pushOperand:self.display.text];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasEnteredDecimalPointInNumber = NO;
     if (!self.userIsInTheMiddleOfEnteringANumber)
@@ -115,8 +115,27 @@
     
 }
 
+- (IBAction)test1Pressed:(UIButton *)sender 
+{
+}
+
+- (IBAction)test2Pressed:(UIButton *)sender
+{
+}
+
+- (IBAction)test3Pressed:(UIButton *)sender
+{
+}
+
+- (IBAction)test4Pressed:(UIButton *)sender
+{
+}
+
+
+
 - (void)viewDidUnload {
     [self setHistory:nil];
     [super viewDidUnload];
 }
+
 @end
