@@ -34,20 +34,19 @@
     return @"Implement this in Homework #2";
 }
 
-- (void)pushOperand:(id)operand
+- (void)pushOperand:(double)operand
+{
+    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
+}
+
+- (void)pushVarOperand:(NSString *)operand
 {
     [self.programStack addObject:operand];
-                                 
-#if 0
-    if ([operand isKindOfClass:[NSNumber class]])
-    {
-        [self.programStack addObject:[NSNumber numberWithDouble:operand]];  
-    }
-    else if ([operand isKindOfClass:[NSString class]])
-    {
-        [self.programStack addObject:[NSString operand]];
-    }
-#endif
+}
+
+- (void)pushNumOperand:(double)operand
+{
+    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
 
 - (double)performOperation:(NSString *)operation
@@ -131,7 +130,16 @@
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    return [self popOperandOffProgramStack:stack];
+  //  NSString *varList = @"x = %s, a = %s, b = %s",
+  //      [variableValues objectForKey:@"x"], 
+  //      [variableValues objectForKey:@"a"], 
+  //      [variableValues objectForKey:@"b"]);
+    
+    NSLog(@"%@", [[variableValues objectForKey:@"x"] stringValue]);   
+    
+    NSLog(@"Received Values");
+    return 1;
+    //return [self popOperandOffProgramStack:stack];
 }
 
 @end

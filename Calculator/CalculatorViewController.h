@@ -11,6 +11,8 @@
 @interface CalculatorViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (weak, nonatomic) IBOutlet UILabel *history;
+@property (weak, nonatomic) IBOutlet UILabel *valuelist;
+@property (weak, nonatomic) IBOutlet UILabel *description;
 - (IBAction)digitPressed:(UIButton *)sender;
 
 @end
