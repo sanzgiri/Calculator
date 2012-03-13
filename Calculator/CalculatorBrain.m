@@ -29,9 +29,29 @@
     return [self.programStack copy];
 }
 
++ (NSSet *)variablesUsedInProgram:(id)program
+{
+    NSSet* operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];
+    NSSet *programSet = [NSSet setWithArray:program];
+    NSMutableSet *variableSet = [[NSMutableSet alloc] init];
+    NSEnumerator *enumerator = [programSet objectEnumerator];
+    id value;
+    
+    while ((value = [enumerator nextObject])) 
+    {
+        if (![operandSet containsObject:value])
+        {
+            [variableSet addObject:value];
+        }
+    }
+    NSLog(@"variableSet = %@", variableSet);
+    return variableSet;
+}
+
 + (NSString *)descriptionOfProgram:(id)program
 {
-    return @"Implement this in Homework #2";
+    [[self class] variablesUsedInProgram:program];
+    return @"This is a test";
 }
 
 - (void)pushOperand:(double)operand
@@ -42,11 +62,6 @@
 - (void)pushVarOperand:(NSString *)operand
 {
     [self.programStack addObject:operand];
-}
-
-- (void)pushNumOperand:(double)operand
-{
-    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
 
 - (double)performOperation:(NSString *)operation
@@ -60,6 +75,7 @@
     double result = 0;
     
     id topOfStack = [stack lastObject];
+    NSLog(@"Popping %@", topOfStack);
     if (topOfStack) [stack removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]])
@@ -98,13 +114,7 @@
 //            NSNumber *e = [NSNumber numberWithDouble:M_E];
 //            [self.programStack addObject:e];
             result = M_E;
-        } else if ([operation isEqualToString:@"x"]) {
-            result = [self popOperandOffProgramStack:stack];
-        } else if ([operation isEqualToString:@"a"]) {
-            result = [self popOperandOffProgramStack:stack];
-        } else if ([operation isEqualToString:@"b"]) {
-            result = [self popOperandOffProgramStack:stack];
-        }
+        } 
         
     }
     return result;
@@ -124,22 +134,52 @@
     return [self popOperandOffProgramStack:stack];
 }
 
-+ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues;
++ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
+    }
+    
+    NSLog(@"count = %d", [stack count]);
+    
+    for (int i = 0; i < [stack count]; i++) 
+    {
+        id object = [stack objectAtIndex:i];
+        NSLog(@"%@", object);
+        if ([object isKindOfClass:[NSString class]])
+        {
+            if ([object isEqualToString:@"x"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"x"];  
+                NSLog(@"replace x with %@", value);
+                [stack replaceObjectAtIndex:i withObject:value];
+            }
+            if ([object isEqualToString:@"a"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"a"];  
+                NSLog(@"replace a with %@", value);
+                [stack replaceObjectAtIndex:i withObject:value];
+            }
+            if ([object isEqualToString:@"b"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"b"];  
+                NSLog(@"replace b with %@", value);         
+                [stack replaceObjectAtIndex:i withObject:value];
+            }    
+        }
     }
   //  NSString *varList = @"x = %s, a = %s, b = %s",
   //      [variableValues objectForKey:@"x"], 
   //      [variableValues objectForKey:@"a"], 
   //      [variableValues objectForKey:@"b"]);
     
-    NSLog(@"%@", [[variableValues objectForKey:@"x"] stringValue]);   
+  //  NSLog(@"%@", [[variableValues objectForKey:@"x"] stringValue]);   
     
-    NSLog(@"Received Values");
-    return 1;
-    //return [self popOperandOffProgramStack:stack];
+  //  NSLog(@"Received Values");
+    //return 1;
+   return [self popOperandOffProgramStack:stack];
 }
+
 
 @end

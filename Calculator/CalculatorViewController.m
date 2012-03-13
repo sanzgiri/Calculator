@@ -12,6 +12,7 @@
 @interface CalculatorViewController()
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
 @property (nonatomic) BOOL userHasEnteredDecimalPointInNumber;
+@property (nonatomic) BOOL userIsEnteringAnExpression;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @property (nonatomic, strong) NSDictionary *testValues;
 @end
@@ -23,6 +24,8 @@
 @synthesize display = _display;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize userHasEnteredDecimalPointInNumber = _userHasEnteredDecimalPointInNumber; 
+@synthesize userIsEnteringAnExpression = _userIsEnteringAnExpression;
+
 @synthesize brain = _brain;
 @synthesize testValues = _testValues;
 
@@ -49,12 +52,13 @@
 {
     NSString *var = [sender currentTitle];
     self.display.text = var;    
-    [self.brain pushNumOperand:[self.display.text doubleValue]];
+    [self.brain pushVarOperand:self.display.text];
     self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@", self.display.text]]; 
+    self.userIsEnteringAnExpression = YES;
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushNumOperand:[self.display.text doubleValue]];
+    [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasEnteredDecimalPointInNumber = NO;
     if (!self.userIsInTheMiddleOfEnteringANumber)
@@ -122,21 +126,20 @@
         } else {
             self.display.text = @"0";
         }
-        
     }
-    
 }
 
 - (IBAction)test1Pressed:(UIButton *)sender 
 {
     self.testValues = [NSDictionary dictionaryWithObjectsAndKeys: 
                        [NSNumber numberWithInt:2], @"x",
-                       [NSNumber numberWithInt:0], @"a",
+                       [NSNumber numberWithInt:3], @"a",
                        [NSNumber numberWithInt:-1], @"b",
                        nil];
-    self.valuelist.text = @"x = 2, a = 0, b = -1";    
-    [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];
-    
+    self.valuelist.text = @"x = 2, a = 3, b = -1";   
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];
+    self.display.text = [NSString stringWithFormat:@"%g", result];    
 }
 
 - (IBAction)test2Pressed:(UIButton *)sender
@@ -147,7 +150,8 @@
                         [NSNumber numberWithInt:1], @"b",
                         nil];
     self.valuelist.text = @"x = -1, a = 0, b = 1";    
-    [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];    
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
 - (IBAction)test3Pressed:(UIButton *)sender
@@ -158,7 +162,8 @@
                        [NSNumber numberWithInt:2], @"b",
                        nil];
     self.valuelist.text = @"x = 1, a = 2, b = 2";    
-    [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
 - (IBAction)test4Pressed:(UIButton *)sender
@@ -169,7 +174,8 @@
                         [NSNumber numberWithInt:-5], @"b",
                         nil];
     self.valuelist.text = @"x = 3, a = 4, b = -5";    
-    [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];    
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testValues];  
+    self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
 

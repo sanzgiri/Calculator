@@ -12,7 +12,6 @@
 
 - (void) pushOperand:(double)operand;
 - (void) pushVarOperand:(NSString *)operand;
-- (void) pushNumOperand:(double)operand;
 - (void) pushOperand:(double)operand;
 
 - (double) performOperation:(NSString *)operation;
@@ -21,6 +20,7 @@
 @property (nonatomic, readonly) id program;
 
 + (NSString *)descriptionOfProgram:(id)program;
++ (NSSet *)variablesUsedInProgram:(id)program;
 + (double)runProgram:(id)program;
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)testValues;
 @end
