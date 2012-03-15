@@ -86,44 +86,74 @@
 
 + (NSString *)descriptionOfTopOfStack:(NSMutableArray *)stack
 {
+    
+    NSString *topString = [[NSString alloc] init];
+    
+//    for (id element in stack)
+//    {
+//        NSLog(@"Element in stack is: %@", element);
+//    }    
+     
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
-    NSString *topString;
-    
-    if ([topOfStack isKindOfClass:[NSNumber class]])
-    {
-        topString = [topString stringByAppendingString:[topOfStack stringValue]];
-    }
-    else if ([topOfStack isKindOfClass:[NSString class]])
-    {
-//        NSString *topString = [topOfStack stringValue];
-        if ([self isZeroOperandOperation:topOfStack])
-        {
-            topString = [topString stringByAppendingString:[topOfStack stringValue]];
-        } else if ([self isSingleOperandOperation:topOfStack])
-        {
-                       
-        } else if ([self isDoubleOperandOperation:topOfStack])
-        {    
+       
+    NSString *operation = topOfStack;
             
-        } else if ([self isVariable:topOfStack])
+    if ([self isSingleOperandOperation:topOfStack])
+    {
+        topString = [topString stringByAppendingString:operation];
+        topString = [topString stringByAppendingString:[[self class] descriptionOfTopOfStack:stack]];                  
+    } else if ([self isDoubleOperandOperation:topOfStack])
+    {    
+        topString = [[self class] descriptionOfTopOfStack:stack];
+        NSLog(@"topstring = %@", topString);
+        topString = [topString stringByAppendingString:operation];
+        NSLog(@"topstring = %@", topString);
+        topString = [topString stringByAppendingString:[[self class]descriptionOfTopOfStack:stack]]; 
+        NSLog(@"topstring = %@", topString);
+    } else
+    {
+        // zero-operand operation on stack
+        if ([topOfStack isKindOfClass:[NSString class]])
         {
-            topString = [topString stringByAppendingString:[topOfStack stringValue]];
-        }
+            topString = [topString stringByAppendingString:topOfStack];
+        } 
+        // number on stack
+        else 
+        {                
+            topString = [topString stringByAppendingString:[NSString stringWithFormat:@"%g", [topOfStack doubleValue]]];
+        }            
     }
-    NSLog(@"topstring = %@", topString);
     return topString;
 }
 
+
 + (NSString *)descriptionOfProgram:(id)program
 {    
-    NSMutableArray *stack;
+    NSMutableArray *stack;    
     if ([program isKindOfClass:[NSArray class]]) {
             stack = [program mutableCopy];
-    }   
+    }  
+    
+#if 0    
+    NSString *descString = [[NSString alloc] init];
+    descString = [self descriptionOfTopOfStack:stack]; 
+    
+    NSMutableString *descRevString = [NSMutableString string];
+    NSInteger charIndex = [descString length];
+    while(charIndex >= 0) {
+        charIndex--;
+        NSRange subStrRange = NSMakeRange(charIndex, 1);
+        [descRevString appendString:[descString substringWithRange:subStrRange]];
+    }
+  
+    return descRevString;
+#endif    
     return [self descriptionOfTopOfStack:stack];    
 //    return @"This is a test";
 }
+
+
 
 - (void)pushOperand:(double)operand
 {
@@ -229,6 +259,7 @@
         stack = [program mutableCopy];
     }
     
+#if 0
     NSSet *varsUsedSet = [self variablesUsedInProgram:stack];
     NSMutableArray *varsUsedArray = [NSMutableArray arrayWithArray:[varsUsedSet allObjects]];
     
@@ -240,6 +271,34 @@
         NSLog(@"replace %@ with %@", var, varValue);
         [stack replaceObjectAtIndex:i withObject:varValue];        
                 
+    }
+#endif
+    
+    for (int i = 0; i < [stack count]; i++) 
+    {
+        id object = [stack objectAtIndex:i];
+        NSLog(@"%@", object);
+        if ([object isKindOfClass:[NSString class]])
+        {
+            if ([object isEqualToString:@"x"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"x"];  
+                NSLog(@"replace x with %@", value);
+                [stack replaceObjectAtIndex:i withObject:value];
+            }
+            if ([object isEqualToString:@"a"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"a"];  
+                NSLog(@"replace a with %@", value);
+                [stack replaceObjectAtIndex:i withObject:value];
+            }
+            if ([object isEqualToString:@"b"])
+            {
+                NSNumber* value = [variableValues objectForKey:@"b"];  
+                NSLog(@"replace b with %@", value);         
+                [stack replaceObjectAtIndex:i withObject:value];
+            }    
+        }
     }
     
     return [self popOperandOffProgramStack:stack];

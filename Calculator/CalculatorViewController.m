@@ -87,7 +87,7 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
     self.history.text = [self.history.text stringByReplacingOccurrencesOfString:@"= " withString:@""];
     self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@ = ", operation]];
-}
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];}
 
 
 - (IBAction)dotPressed:(UIButton *)sender 
@@ -112,6 +112,8 @@
     [self.brain clearStack];
     self.display.text = @"0";
     self.history.text = @"";
+    self.description.text = @"";
+    self.valuelist.text = @"";
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasEnteredDecimalPointInNumber = NO;
 }
@@ -146,7 +148,7 @@
                        nil];
     self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
     self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
     self.display.text = [NSString stringWithFormat:@"%g", result];    
 }
 
@@ -157,8 +159,9 @@
                         [NSNumber numberWithInt:0], @"a",
                         [NSNumber numberWithInt:1], @"b",
                         nil];
-    self.valuelist.text = @"x = -1, a = 0, b = 1";    
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];  
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
@@ -169,8 +172,9 @@
                        [NSNumber numberWithInt:2], @"a",
                        [NSNumber numberWithInt:2], @"b",
                        nil];
-    self.valuelist.text = @"x = 1, a = 2, b = 2";    
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];  
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
@@ -181,8 +185,9 @@
                         [NSNumber numberWithInt:4], @"a",
                         [NSNumber numberWithInt:-5], @"b",
                         nil];
-    self.valuelist.text = @"x = 3, a = 4, b = -5";    
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues: self.testVariableValues];  
+    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];   
+    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];  
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
