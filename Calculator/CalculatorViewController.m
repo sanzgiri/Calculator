@@ -6,6 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+// To do:
+// order of operands in description, brackets
+// keep older expressions in description, don't clear it
+// separate expressions by ,
+// should result be pushed on stack?
+
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
 
