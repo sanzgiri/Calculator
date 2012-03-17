@@ -7,7 +7,7 @@
 //
 
 // To do:
-// order of operands in description, brackets
+// order of operands in description, brackets (use stack instead of appending to string)
 // keep older expressions in description, don't clear it
 // separate expressions by ,
 // should result be pushed on stack?
@@ -18,7 +18,6 @@
 @interface CalculatorViewController()
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
 @property (nonatomic) BOOL userHasEnteredDecimalPointInNumber;
-@property (nonatomic) BOOL userIsEnteringAnExpression;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @property (nonatomic, strong) NSDictionary *testVariableValues;
 @end
@@ -30,7 +29,6 @@
 @synthesize display = _display;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize userHasEnteredDecimalPointInNumber = _userHasEnteredDecimalPointInNumber; 
-@synthesize userIsEnteringAnExpression = _userIsEnteringAnExpression;
 
 @synthesize brain = _brain;
 @synthesize testVariableValues = _testVariableValues;
@@ -60,7 +58,6 @@
     self.display.text = var;    
     [self.brain pushVarOperand:self.display.text];
     self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@", self.display.text]]; 
-    self.userIsEnteringAnExpression = YES;
 }
 
 - (IBAction)enterPressed {
@@ -91,9 +88,9 @@
   
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
-    self.history.text = [self.history.text stringByReplacingOccurrencesOfString:@"= " withString:@""];
-    self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@ = ", operation]];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];}
+    self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@ ", operation]];
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+}
 
 
 - (IBAction)dotPressed:(UIButton *)sender 
@@ -133,7 +130,6 @@
         {
             self.display.text = [self.display.text substringToIndex:len-1];
         } else {
-//            self.display.text = @"0";
             double result = [[self.brain class] runProgram:self.brain.program];
             self.display.text = [NSString stringWithFormat:@"%g", result];
             self.userIsInTheMiddleOfEnteringANumber = NO;
@@ -196,8 +192,6 @@
     double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];  
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
-
-
 
 - (void)viewDidUnload {
     [self setHistory:nil];

@@ -33,7 +33,7 @@
 
 + (NSSet *)variablesUsedInProgram:(id)program
 {
-    NSSet* operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sqrt",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];
+    NSSet *operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sqrt",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];
     NSSet *programSet = [NSSet setWithArray:program];
     NSMutableSet *variableSet = [[NSMutableSet alloc] init];
     NSEnumerator *enumerator = [programSet objectEnumerator];
@@ -47,14 +47,13 @@
         }
     }
     if ([variableSet count] == 0) variableSet = nil;
-//    NSLog(@"variableSet = %@", variableSet);
     return variableSet;
 }
 
 
 + (BOOL) isZeroOperandOperation:(id)operation
 {
-    NSSet* zeroOperandSet = [NSSet setWithObjects:@"π",@"e",nil];  
+    NSSet *zeroOperandSet = [NSSet setWithObjects:@"π",@"e",nil];  
     if ([zeroOperandSet containsObject:operation])
         return YES;
     return NO;
@@ -62,7 +61,7 @@
 
 + (BOOL) isSingleOperandOperation:(id)operation
 {
-    NSSet* singleOperandSet = [NSSet setWithObjects:@"sqrt",@"sin",@"cos",@"log",@"+/-",nil];  
+    NSSet *singleOperandSet = [NSSet setWithObjects:@"sqrt",@"sin",@"cos",@"log",@"+/-",nil];  
     if ([singleOperandSet containsObject:operation])
         return YES;
     return NO;
@@ -70,7 +69,7 @@
 
 + (BOOL) isDoubleOperandOperation:(id)operation
 {
-    NSSet* doubleOperandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",nil];  
+    NSSet *doubleOperandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",nil];  
     if ([doubleOperandSet containsObject:operation])
         return YES;
     return NO;
@@ -78,7 +77,7 @@
 
 + (BOOL) isVariable:(id)operation
 {
-    NSSet* operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sqrt",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];      
+    NSSet *operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sqrt",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];      
     if (![operandSet containsObject:operation])
         return YES;
     return NO;
@@ -88,12 +87,6 @@
 {
     
     NSString *topString = [[NSString alloc] init];
-    
-//    for (id element in stack)
-//    {
-//        NSLog(@"Element in stack is: %@", element);
-//    }    
-     
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
        
@@ -101,21 +94,19 @@
             
     if ([self isSingleOperandOperation:topOfStack])
     {
-        topString = [topString stringByAppendingString:operation];
-        topString = [topString stringByAppendingString:[[self class] descriptionOfTopOfStack:stack]];                  
+        NSString *x = [[self class] descriptionOfTopOfStack:stack];
+        topString = [topString stringByAppendingString:[NSString stringWithFormat:@"%@(%@)", operation, x]];
     } else if ([self isDoubleOperandOperation:topOfStack])
     {    
-        topString = [[self class] descriptionOfTopOfStack:stack];
-        NSLog(@"topstring = %@", topString);
-        topString = [topString stringByAppendingString:operation];
-        NSLog(@"topstring = %@", topString);
-        topString = [topString stringByAppendingString:[[self class]descriptionOfTopOfStack:stack]]; 
-        NSLog(@"topstring = %@", topString);
+        NSString *x = [[self class] descriptionOfTopOfStack:stack];
+        NSString *y = [[self class] descriptionOfTopOfStack:stack]; 
+        topString = [topString stringByAppendingString:[NSString stringWithFormat:@"(%@ %@ %@)", y, operation, x]];
     } else
     {
         // zero-operand operation on stack
         if ([topOfStack isKindOfClass:[NSString class]])
         {
+            NSLog(@"var is on stack");
             topString = [topString stringByAppendingString:topOfStack];
         } 
         // number on stack
@@ -124,6 +115,7 @@
             topString = [topString stringByAppendingString:[NSString stringWithFormat:@"%g", [topOfStack doubleValue]]];
         }            
     }
+    NSLog(@"topstring = %@",topString);
     return topString;
 }
 
@@ -134,26 +126,8 @@
     if ([program isKindOfClass:[NSArray class]]) {
             stack = [program mutableCopy];
     }  
-    
-#if 0    
-    NSString *descString = [[NSString alloc] init];
-    descString = [self descriptionOfTopOfStack:stack]; 
-    
-    NSMutableString *descRevString = [NSMutableString string];
-    NSInteger charIndex = [descString length];
-    while(charIndex >= 0) {
-        charIndex--;
-        NSRange subStrRange = NSMakeRange(charIndex, 1);
-        [descRevString appendString:[descString substringWithRange:subStrRange]];
-    }
-  
-    return descRevString;
-#endif    
     return [self descriptionOfTopOfStack:stack];    
-//    return @"This is a test";
 }
-
-
 
 - (void)pushOperand:(double)operand
 {
@@ -193,7 +167,6 @@
     double result = 0;
     
     id topOfStack = [stack lastObject];
-//    NSLog(@"Popping %@", topOfStack);
     if (topOfStack) [stack removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]])
@@ -225,15 +198,10 @@
         } else if ([operation isEqualToString:@"+/-"]) {
             result = [self popOperandOffProgramStack:stack] * -1;
         } else if ([operation isEqualToString:@"π"]) {
-//            NSNumber *pi = [NSNumber numberWithDouble:M_PI];
-//            [self.programStack addObject:pi];
             result = M_PI;
         } else if ([operation isEqualToString:@"e"]) {
-//            NSNumber *e = [NSNumber numberWithDouble:M_E];
-//            [self.programStack addObject:e];
             result = M_E;
-        } 
-        
+        }         
     }
     return result;
 }
@@ -258,49 +226,27 @@
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    
-#if 0
     NSSet *varsUsedSet = [self variablesUsedInProgram:stack];
-    NSMutableArray *varsUsedArray = [NSMutableArray arrayWithArray:[varsUsedSet allObjects]];
-    
-    for (int i = 0; i < [varsUsedArray count]; i++) 
-    {
-        id var = [varsUsedArray objectAtIndex:i];
-        NSNumber* varValue = [variableValues objectForKey:var];  
-        if (varValue == nil) varValue = [NSNumber numberWithDouble:0];
-        NSLog(@"replace %@ with %@", var, varValue);
-        [stack replaceObjectAtIndex:i withObject:varValue];        
-                
-    }
-#endif
+    NSSet *operandSet = [NSSet setWithObjects:@"+",@"*",@"-",@"/",@"sqrt",@"sin",@"cos",@"log",@"+/-",@"π",@"e", nil];   
     
     for (int i = 0; i < [stack count]; i++) 
     {
-        id object = [stack objectAtIndex:i];
-        NSLog(@"%@", object);
-        if ([object isKindOfClass:[NSString class]])
+        id key = [stack objectAtIndex:i];
+        if ([key isKindOfClass:[NSString class]] && ![operandSet containsObject:key])
         {
-            if ([object isEqualToString:@"x"])
+            if ([varsUsedSet containsObject:key])
             {
-                NSNumber* value = [variableValues objectForKey:@"x"];  
-                NSLog(@"replace x with %@", value);
+                NSNumber *value = [variableValues objectForKey:key];  
+                NSLog(@"replace %@ with %@", key, value);
                 [stack replaceObjectAtIndex:i withObject:value];
             }
-            if ([object isEqualToString:@"a"])
+            else
             {
-                NSNumber* value = [variableValues objectForKey:@"a"];  
-                NSLog(@"replace a with %@", value);
-                [stack replaceObjectAtIndex:i withObject:value];
+                [stack replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
             }
-            if ([object isEqualToString:@"b"])
-            {
-                NSNumber* value = [variableValues objectForKey:@"b"];  
-                NSLog(@"replace b with %@", value);         
-                [stack replaceObjectAtIndex:i withObject:value];
-            }    
         }
     }
-    
+            
     return [self popOperandOffProgramStack:stack];
 }
 
