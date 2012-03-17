@@ -6,12 +6,6 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-// To do:
-// order of operands in description, brackets (use stack instead of appending to string)
-// keep older expressions in description, don't clear it
-// separate expressions by ,
-// should result be pushed on stack?
-
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
 
@@ -89,7 +83,13 @@
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
     self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@ ", operation]];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    NSString *sdt = [[self.brain class] descriptionOfProgram:self.brain.program];
+    if ([self.description.text length] != 0) {
+        self.description.text = [sdt stringByAppendingFormat:@", %@", self.description.text];
+    }
+    else {
+        self.description.text = sdt; 
+    }
 }
 
 
