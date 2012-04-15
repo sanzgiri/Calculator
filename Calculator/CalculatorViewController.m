@@ -8,12 +8,12 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
 
 @interface CalculatorViewController()
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
 @property (nonatomic) BOOL userHasEnteredDecimalPointInNumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
-@property (nonatomic, strong) NSDictionary *testVariableValues;
 @end
 
 @implementation CalculatorViewController
@@ -23,7 +23,15 @@
 @synthesize userHasEnteredDecimalPointInNumber = _userHasEnteredDecimalPointInNumber; 
 
 @synthesize brain = _brain;
-@synthesize testVariableValues = _testVariableValues;
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Graph"]) {
+//        [segue.destinationViewController setGraphDataValues:self.diagnosis];
+     }
+}
+
 
 - (CalculatorBrain *)brain
 {
