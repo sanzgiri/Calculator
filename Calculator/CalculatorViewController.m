@@ -17,8 +17,6 @@
 @end
 
 @implementation CalculatorViewController
-@synthesize history = _history;
-@synthesize valuelist = _valuelist;
 @synthesize description = _description;
 @synthesize display = _display;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
@@ -51,17 +49,12 @@
     NSString *var = [sender currentTitle];
     self.display.text = var;    
     [self.brain pushVarOperand:self.display.text];
-    self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@", self.display.text]]; 
 }
 
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasEnteredDecimalPointInNumber = NO;
-    if (!self.userIsInTheMiddleOfEnteringANumber)
-    {
-        self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@", self.display.text]]; 
-    }
 }
 
 
@@ -82,7 +75,6 @@
   
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
-    self.history.text = [self.history.text stringByAppendingString:[NSString stringWithFormat:@" %@ ", operation]];
     NSString *sdt = [[self.brain class] descriptionOfProgram:self.brain.program];
     if ([self.description.text length] != 0) {
         self.description.text = [sdt stringByAppendingFormat:@", %@", self.description.text];
@@ -114,9 +106,7 @@
 - (IBAction)clearPressed:(UIButton *)sender {
     [self.brain clearStack];
     self.display.text = @"0";
-    self.history.text = @"";
     self.description.text = @"";
-    self.valuelist.text = @"";
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.userHasEnteredDecimalPointInNumber = NO;
 }
@@ -141,61 +131,7 @@
     
 }
 
-- (IBAction)test1Pressed:(UIButton *)sender 
-{
-    self.testVariableValues = [NSDictionary dictionaryWithObjectsAndKeys: 
-                       [NSNumber numberWithInt:2], @"x",
-                       [NSNumber numberWithInt:3], @"a",
-                       [NSNumber numberWithInt:-1], @"b",
-                       nil];
-    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
-    self.display.text = [NSString stringWithFormat:@"%g", result];    
-}
-
-- (IBAction)test2Pressed:(UIButton *)sender
-{  
-    self.testVariableValues = [NSDictionary dictionaryWithObjectsAndKeys: 
-                        [NSNumber numberWithInt:-1], @"x",
-                        [NSNumber numberWithInt:0], @"a",
-                        [NSNumber numberWithInt:1], @"b",
-                        nil];
-    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];  
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
-    self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
-- (IBAction)test3Pressed:(UIButton *)sender
-{
-    self.testVariableValues = [NSDictionary dictionaryWithObjectsAndKeys: 
-                       [NSNumber numberWithInt:1], @"x",
-                       [NSNumber numberWithInt:2], @"a",
-                       [NSNumber numberWithInt:2], @"b",
-                       nil];
-    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];  
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
-    self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
-- (IBAction)test4Pressed:(UIButton *)sender
-{    
-    self.testVariableValues = [NSDictionary dictionaryWithObjectsAndKeys: 
-                        [NSNumber numberWithInt:3], @"x",
-                        [NSNumber numberWithInt:4], @"a",
-                        [NSNumber numberWithInt:-5], @"b",
-                        nil];
-    self.valuelist.text =   [[self.brain class] valuesInputToProgram:self.brain.program usingVariableValues: self.testVariableValues];
-    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];   
-    double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];  
-    self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
 - (void)viewDidUnload {
-    [self setHistory:nil];
-    [self setValuelist:nil];
     [self setDescription:nil];
     [super viewDidUnload];
 }
