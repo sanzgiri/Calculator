@@ -14,6 +14,7 @@
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
 @property (nonatomic) BOOL userHasEnteredDecimalPointInNumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
+@property (nonatomic, strong) NSDictionary *testVariableValues;
 @end
 
 @implementation CalculatorViewController
@@ -21,9 +22,8 @@
 @synthesize display = _display;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize userHasEnteredDecimalPointInNumber = _userHasEnteredDecimalPointInNumber; 
-
 @synthesize brain = _brain;
-
+@synthesize testVariableValues = _testVariableValues;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -83,6 +83,8 @@
   
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
+    
+#if 0
     NSString *sdt = [[self.brain class] descriptionOfProgram:self.brain.program];
     if ([self.description.text length] != 0) {
         self.description.text = [sdt stringByAppendingFormat:@", %@", self.description.text];
@@ -90,6 +92,9 @@
     else {
         self.description.text = sdt; 
     }
+#endif
+    
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
 }
 
 
@@ -138,6 +143,20 @@
     }
     
 }
+
+- (IBAction)testPressed:(UIButton *)sender 
+{
+    self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    for (int i = 0; i < 20; i++)
+    {
+        self.testVariableValues = [NSDictionary dictionaryWithObjectsAndKeys: 
+                                   [NSNumber numberWithInt:i], @"x",
+                                   nil];
+        double result = [[self.brain class] runProgram:self.brain.program usingVariableValues:self.testVariableValues];
+        NSLog(@"x = %d, y = %g", i, result);
+    }
+}
+
 
 - (void)viewDidUnload {
     [self setDescription:nil];

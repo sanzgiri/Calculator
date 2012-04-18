@@ -60,15 +60,6 @@
     return self;
 }
 
-- (void)drawCircleAtPoint:(CGPoint)p withRadius:(CGFloat)radius inContext:(CGContextRef)context
-{
-    UIGraphicsPushContext(context);
-    CGContextBeginPath(context);
-    CGContextAddArc(context, p.x, p.y, radius, 0, 2*M_PI, YES); // 360 degree (0 to 2pi) arc
-    CGContextStrokePath(context);
-    UIGraphicsPopContext();
-}
-
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -83,6 +74,17 @@
     
     AxesDrawer *myAxes = [[AxesDrawer alloc] init];
     [[myAxes class] drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale]; 
+    
+    [[UIColor redColor] setStroke];
+    for (int i = 0; i < 1000; i++)
+    {
+        CGFloat x = self.bounds.origin.x + 0.1*i;
+        CGFloat y = 2 * x;
+        CGContextBeginPath(context);
+        CGContextMoveToPoint(context, self.bounds.origin.x, self.bounds.origin.y);
+        CGContextAddLineToPoint(context, x, y);
+        CGContextStrokePath(context);        
+    }
     
     UIGraphicsPopContext();
 }

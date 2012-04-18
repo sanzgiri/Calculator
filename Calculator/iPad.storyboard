@@ -11,15 +11,27 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbj-fF-6cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="jwG-Mu-2S7" customClass="GraphViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="L65-4d-wH5">
+                    <view key="view" contentMode="scaleToFill" id="IVM-aU-Xdw">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="u2L-qm-4q6">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
+                            <view contentMode="scaleToFill" id="WvF-d2-wil" customClass="GraphView">
+                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1863" y="-573"/>
+            <point key="canvasLocation" x="2088" y="-585"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mnh-Sz-L93">
