@@ -75,7 +75,7 @@
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pinch:)]];
     // recognize a pan gesture and modify our Model
   //  [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
-    self.graphView.dataSource = self;
+  // self.graphView.dataSource = self;
 }
 
 #if 0
