@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="JEL-aS-cyU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="V4c-bx-gY8">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Graph View Controller-->
@@ -12,32 +12,69 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbj-fF-6cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="jwG-Mu-2S7" customClass="GraphViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IVM-aU-Xdw">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="703" height="704"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="u2L-qm-4q6">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items/>
-                            </toolbar>
                             <view contentMode="scaleToFill" id="WvF-d2-wil" customClass="GraphView">
-                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
+                                <rect key="frame" x="0.0" y="42" width="773" height="960"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fye-73-uqg">
+                                        <rect key="frame" x="505" y="636" width="172" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Add To Favorites">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addToFavorites:" destination="jwG-Mu-2S7" eventType="touchUpInside" id="IMC-Oj-jHQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Cj9-Qo-TRu">
+                                <rect key="frame" x="-76" y="-2" width="967" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <barButtonItem width="405" style="plain" systemItem="fixedSpace" id="tow-zK-dTw"/>
+                                    <barButtonItem title="Graph" style="plain" id="KQd-dd-ASN"/>
+                                    <barButtonItem title="Favorites" id="UzW-n4-GZG">
+                                        <connections>
+                                            <segue destination="6wq-sG-hJX" kind="popover" identifier="Show Favorite Graphs" popoverAnchorBarButtonItem="UzW-n4-GZG" id="8A6-F3-nbm">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem width="454" style="plain" systemItem="fixedSpace" id="6n0-S8-nLM"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="esc-m1-ipm"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="graphView" destination="WvF-d2-wil" id="IOY-58-mtZ"/>
+                        <outlet property="toolbar" destination="Cj9-Qo-TRu" id="lH5-tU-2ZI"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2088" y="-585"/>
+            <point key="canvasLocation" x="-636" y="-228"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mnh-Sz-L93">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRg-Ed-iBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="LQP-6w-JP6" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="hTL-2b-GW9"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="87f-Op-rwb">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -46,21 +83,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="1881" y="-1540"/>
-        </scene>
-        <!--Split View Controller-->
-        <scene sceneID="73e-6x-nhB">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SeH-gR-Fer" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <splitViewController id="JEL-aS-cyU" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <connections>
-                        <segue destination="LQP-6w-JP6" kind="relationship" relationship="masterViewController" id="zJp-Lm-n8v"/>
-                        <segue destination="jwG-Mu-2S7" kind="relationship" relationship="detailViewController" id="Tmd-Bg-2K7"/>
-                    </connections>
-                </splitViewController>
-            </objects>
-            <point key="canvasLocation" x="821" y="-993"/>
+            <point key="canvasLocation" x="-648" y="-1208"/>
         </scene>
         <!--Calculator View Controller-->
         <scene sceneID="sDO-fp-mlm">
@@ -68,7 +91,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ko7-Ke-KJT" sceneMemberID="firstResponder"/>
                 <viewController id="evG-Wo-dpE" customClass="CalculatorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Nj-wa-Mq8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="788"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="704"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="onP-xC-WTu">
@@ -491,6 +514,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.02821389362" green="0.55919601529999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="0va-tH-6hY"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
@@ -500,10 +524,69 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2512" y="-1550"/>
+            <point key="canvasLocation" x="-169" y="-1216"/>
+        </scene>
+        <!--Calculator Programs Table View Controller-->
+        <scene sceneID="KDx-SK-j0u">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="trd-S4-AVc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="6wq-sG-hJX" customClass="CalculatorProgramsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gbv-WJ-ghc">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Calculator Program Description" textLabel="YZY-8y-Yki" style="IBUITableViewCellStyleDefault" id="jtS-CJ-1yv">
+                                <rect key="frame" x="0.0" y="22" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YZY-8y-Yki">
+                                            <rect key="frame" x="10" y="0.0" width="748" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="6wq-sG-hJX" id="Pvu-Az-Ftt"/>
+                            <outlet property="delegate" destination="6wq-sG-hJX" id="hhf-Z0-vK4"/>
+                        </connections>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="200"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="404" y="-703"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="r3g-xC-pB2">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pM3-rq-lGz" sceneMemberID="firstResponder"/>
+                <splitViewController id="V4c-bx-gY8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="LQP-6w-JP6" kind="relationship" relationship="masterViewController" id="RxW-we-bGx"/>
+                        <segue destination="jwG-Mu-2S7" kind="relationship" relationship="detailViewController" id="cxO-EP-uyU"/>
+                    </connections>
+                </splitViewController>
+            </objects>
+            <point key="canvasLocation" x="-2221" y="-694"/>
         </scene>
     </scenes>
     <classes>
+        <class className="CalculatorProgramsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorProgramsTableViewController.h"/>
+        </class>
         <class className="CalculatorViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
             <relationships>

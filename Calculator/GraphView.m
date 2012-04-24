@@ -74,7 +74,8 @@
     
     AxesDrawer *myAxes = [[AxesDrawer alloc] init];
     [[myAxes class] drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale]; 
-    
+
+#if 0
     [[UIColor redColor] setStroke];
     for (int i = 0; i < 1000; i++)
     {
@@ -85,6 +86,7 @@
         CGContextAddLineToPoint(context, x, y);
         CGContextStrokePath(context);        
     }
+#endif
     
     UIGraphicsPopContext();
 }

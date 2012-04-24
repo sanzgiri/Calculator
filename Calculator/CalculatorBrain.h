@@ -12,11 +12,11 @@
 
 - (void) pushOperand:(double)operand;
 - (void) pushVarOperand:(NSString *)operand;
-- (void) pushOperand:(double)operand;
 - (double) removeTopItemFromProgramStack;
 - (double) performOperation:(NSString *)operation;
 - (void) clearStack;
 
+// program is always guaranteed to be a property list
 @property (nonatomic, readonly) id program;
 
 + (NSString *)descriptionOfTopOfStack:(NSMutableArray *)stack;
