@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Calculator View Controller-->
@@ -481,6 +481,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="1tD-A3-UhU"/>
+                    <connections>
+                        <outlet property="graphView" destination="scZ-fj-QFx" id="wDB-9k-sqO"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1061" y="25"/>

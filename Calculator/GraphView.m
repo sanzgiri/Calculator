@@ -72,21 +72,24 @@
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
     
-    AxesDrawer *myAxes = [[AxesDrawer alloc] init];
-    [[myAxes class] drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale]; 
-
-#if 0
+//    AxesDrawer *myAxes = [[AxesDrawer alloc] init];
+//    [[myAxes class] drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale]; 
+        
+    [AxesDrawer drawAxesInRect:self.bounds originAtPoint:midPoint scale:self.scale];  
+    
     [[UIColor redColor] setStroke];
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 4000; i+=100)
     {
         CGFloat x = self.bounds.origin.x + 0.1*i;
-        CGFloat y = 2 * x;
+        double yval = [self.dataSource graphDataForGraphView:self forX:(double)x];
+        NSLog(@"xval = %g, yval = %g", x, yval);
+        CGFloat y = (CGFloat) yval;
         CGContextBeginPath(context);
         CGContextMoveToPoint(context, self.bounds.origin.x, self.bounds.origin.y);
         CGContextAddLineToPoint(context, x, y);
         CGContextStrokePath(context);        
     }
-#endif
+
     
     UIGraphicsPopContext();
 }

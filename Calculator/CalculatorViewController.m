@@ -27,11 +27,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@"program = %@", self.brain.program);
     if ([segue.identifier isEqualToString:@"Graph"]) {
-//        [segue.destinationViewController setGraphDataValues:self.diagnosis];
+       [segue.destinationViewController setCalculatorProgram:self.brain.program];
      }
 }
-
 
 - (CalculatorBrain *)brain
 {
@@ -156,7 +156,6 @@
         NSLog(@"x = %d, y = %g", i, result);
     }
 }
-
 
 - (void)viewDidUnload {
     [self setDescription:nil];

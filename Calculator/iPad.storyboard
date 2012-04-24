@@ -564,7 +564,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="200" height="200"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="404" y="-703"/>
+            <point key="canvasLocation" x="396" y="-355"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="r3g-xC-pB2">

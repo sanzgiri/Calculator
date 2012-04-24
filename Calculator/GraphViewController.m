@@ -11,15 +11,21 @@
 #import "CalculatorBrain.h"
 #import "CalculatorProgramsTableViewController.h"
 
-@interface GraphViewController () <CalculatorProgramTableViewControllerDelegate> // <GraphViewDatasource>
+//@interface GraphViewController () <CalculatorProgramTableViewControllerDelegate> // <GraphViewDataSource>
+@interface GraphViewController () <GraphViewDataSource>
+
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 @property (nonatomic, weak) IBOutlet UIToolbar *toolbar;        // to put splitViewBarButtonitem in
-@property (nonatomic, weak) id calculatorProgram;
 @end
 
 @implementation GraphViewController
 
 #define FAVORITES_KEY @"GraphViewController.Favorites"
+@synthesize graphDataValues = _graphDataValues;
+@synthesize graphView = _graphView;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;   // implementation of SplitViewBarButtonItemPresenter protocol
+@synthesize toolbar = _toolbar;                  
+@synthesize calculatorProgram = _calculatorProgram;
 
 - (IBAction)addToFavorites:(id)sender {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -44,12 +50,16 @@
     self.calculatorProgram = program;
 }
     
-
-@synthesize graphDataValues = _graphDataValues;
-@synthesize graphView = _graphView;
-@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;   // implementation of SplitViewBarButtonItemPresenter protocol
-@synthesize toolbar = _toolbar;                  
-@synthesize calculatorProgram = _calculatorProgram;
+#if 0
+- (void)handleSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    NSMutableArray *toolbarItems = [self.toolbar.items mutableCopy];
+    if (_splitViewBarButtonItem) [toolbarItems removeObject:_splitViewBarButtonItem];
+    if (splitViewBarButtonItem) [toolbarItems insertObject:splitViewBarButtonItem atIndex:0];
+    self.toolbar.items = toolbarItems;
+    _splitViewBarButtonItem = splitViewBarButtonItem;
+}
+#endif
 
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {
@@ -68,6 +78,12 @@
     [self.graphView setNeedsDisplay]; // any time our Model changes, redraw our View
 }
 
+- (void)setCalculatorProgram:(id)calculatorProgram
+{
+    _calculatorProgram = calculatorProgram;
+    [self.graphView setNeedsDisplay];
+}
+
 - (void)setGraphView:(GraphView *)graphView
 {
     _graphView = graphView;
@@ -75,7 +91,7 @@
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self.graphView action:@selector(pinch:)]];
     // recognize a pan gesture and modify our Model
   //  [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)]];
-  // self.graphView.dataSource = self;
+    self.graphView.dataSource = self;
 }
 
 #if 0
@@ -90,18 +106,21 @@
 }
 #endif
 
-- (NSArray *)graphDataForGraphView:(GraphView *)sender
+- (double)graphDataForGraphView:(GraphView *)sender forX:(double)xval
 {
-    NSArray *graphData;
-    return graphData;
+    NSLog(@"xval = %g", xval);
+    NSLog(@"program = %@", _calculatorProgram);
+    NSDictionary *xvalDict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithDouble:xval], @"x", nil];
+    double yval = [CalculatorBrain runProgram:self.calculatorProgram usingVariableValues:xvalDict]; 
+    return yval;
 }
 
+#if 0
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#if 0
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -123,7 +142,5 @@
     // Release any retained subviews of the main view.
 }
 #endif
-
-
 
 @end

@@ -10,7 +10,7 @@
 #import "SplitViewBarButtonItemPresenter.h"
 
 @interface GraphViewController : UIViewController <SplitViewBarButtonItemPresenter>
-
+@property (nonatomic, strong) id calculatorProgram;
 @property (nonatomic) NSArray *graphDataValues;
-
+- (void) setCalculatorProgram:(id)program;
 @end
